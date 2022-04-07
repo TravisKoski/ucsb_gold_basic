@@ -1,0 +1,19 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Courses</h1>
+
+<div id="courses">
+  <% @courses.each do |course| %>
+    <%= render course %>
+    <p>
+      <%= link_to "Show this course", course %>
+    </p>
+    <p>
+      <%= link_to "enroll in this course", enroll_in_course_path(:student_id => @student.id, :course_id => course.id) if @student %>
+    </p>    
+  <% end %>
+</div>
+
+<%= link_to "New course", new_course_path unless @student %><br>
+<%= link_to "back to student profile", @student if @student%>
+

@@ -1,0 +1,6 @@
+<h1> Class schedule for <%=@student.name%> </h1>
+<% @courses.each do |course| %>
+    <p> name: <%=course.name %> </p>
+    <p> capacity: <%=course.capacity %> </p>
+<%end%>
+<%= link_to "back to student profile", @student%>
