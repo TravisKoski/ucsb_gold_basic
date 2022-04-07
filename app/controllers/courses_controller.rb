@@ -1,10 +1,13 @@
 class CoursesController < ApplicationController
-  before_action :set_course, only: %i[ show edit update destroy ]
+  before_action :set_course, only: %i[ show edit update destroy view_students ]
   before_action :set_student
 
   # GET /courses or /courses.json
   def index
     @courses = Course.all
+  end
+  def view_students
+    @students = @course.students
   end
 
   # GET /courses/1 or /courses/1.json

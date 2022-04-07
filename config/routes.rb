@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   get "/students/:student_id/courses", to: "courses#index", as: "view_courses_as_student" #Intermediary step for student enrolling in courses
   get "/students/:student_id/courses/:course_id/enroll", to: "students#enroll", as: "enroll_in_course"
   get "/students/:student_id/view_courses", to: "students#view_courses", as: "view_classes"
+  #route to view the associated students of a course
+  get "/courses/:id/view_students", to: "courses#view_students", as: "course_student_roster"
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

@@ -5,7 +5,8 @@
 <div>
   <%= link_to "Edit this course", edit_course_path(@course) %> |
   <%= link_to "Back to courses", courses_path %> |
-  <%= link_to "Enroll in this course", enroll_course_path(:student_id => @student.id, :course_id => @course.id) if @student %>
+  <%= link_to "Enroll in this course", enroll_course_path(:student_id => @student.id, :course_id => @course.id) if @student %> |
+  <%= link_to "Student roster", course_student_roster_path(@course) %> <br>
 
   <%= button_to "Destroy this course", @course, method: :delete %>
 </div>
