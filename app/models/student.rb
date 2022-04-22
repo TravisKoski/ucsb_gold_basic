@@ -6,7 +6,7 @@ def self.search(search)
     if search
         self.where(name: search)
     else
-        @students = Student.all
+        @students = [] # Do not show students that havent been searched
     end
 end
 end
