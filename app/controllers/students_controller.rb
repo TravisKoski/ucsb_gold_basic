@@ -3,7 +3,7 @@ class StudentsController < ApplicationController
 
   # GET /students or /students.json
   def index
-    @students = Student.all
+    @students = Student.search(params[:search])
   end
 
   # GET /students/1 or /students/1.json
@@ -88,6 +88,6 @@ class StudentsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def student_params
-      params.require(:student).permit(:name)
+      params.require(:student).permit(:name, :search)
     end
 end
