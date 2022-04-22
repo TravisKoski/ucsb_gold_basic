@@ -25,19 +25,22 @@ class StudentsController < ApplicationController
   def enroll
     @course = Course.find_by_id(params[:course_id])
     if @course.isFull == true
-      format.html { redirect_to student_url(@student), notice: "This course is full" }
+      respond_to do |format|
+        format.html { redirect_to student_url(@student), notice: "This course is full" }
         format.json { render :show, status: :created, location: @student }
-    end
+      end
+    else
 
-    respond_to do |format|
-      if @student.update(courses: @student.courses << @course)
-        @course.update_full_flag
-        puts (@course.isFull)
-        format.html { redirect_to student_url(@student), notice: "Student was successfully enrolled" }
-        format.json { render :show, status: :created, location: @student }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @student.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        if @student.update(courses: @student.courses << @course)
+          @course.update_full_flag
+          format.html { redirect_to student_url(@student), notice: "Student was successfully enrolled" }
+          format.json { render :show, status: :created, location: @student }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @student.errors, status: :unprocessable_entity }
+        end
+      
       end
     end
 
