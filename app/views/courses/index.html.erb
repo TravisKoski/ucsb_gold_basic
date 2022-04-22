@@ -9,7 +9,7 @@
       <%= link_to "Show this course", course %>
     </p>
     <p>
-      <%= link_to "enroll in this course", enroll_in_course_path(:student_id => @student.id, :course_id => course.id) if @student %>
+      <%= button_to "enroll in this course", enroll_in_course_path(:student_id => @student.id, :course_id => course.id), method: :put if @student %>
     </p>    
   <% end %>
 </div>
