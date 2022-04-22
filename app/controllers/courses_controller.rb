@@ -1,7 +1,7 @@
 class CoursesController < ApplicationController
-  before_action :set_course, only: %i[ show edit update destroy view_students ]
+  before_action :set_course, only: %i[ show edit update destroy view_students]
   before_action :set_student
-
+ 
   # GET /courses or /courses.json
   def index
     @courses = Course.all
@@ -74,6 +74,7 @@ class CoursesController < ApplicationController
         @student = nil
       end
     end
+    
 
     # Only allow a list of trusted parameters through.
     def course_params

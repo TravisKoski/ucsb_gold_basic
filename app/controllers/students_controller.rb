@@ -24,8 +24,15 @@ class StudentsController < ApplicationController
   end
   def enroll
     @course = Course.find_by_id(params[:course_id])
+    if @course.isFull == true
+      format.html { redirect_to student_url(@student), notice: "This course is full" }
+        format.json { render :show, status: :created, location: @student }
+    end
+
     respond_to do |format|
       if @student.update(courses: @student.courses << @course)
+        @course.update_full_flag
+        puts (@course.isFull)
         format.html { redirect_to student_url(@student), notice: "Student was successfully enrolled" }
         format.json { render :show, status: :created, location: @student }
       else
