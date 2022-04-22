@@ -10,12 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_31_051645) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_22_051849) do
   create_table "courses", force: :cascade do |t|
     t.string "name"
     t.string "capacity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "isFull"
   end
 
   create_table "seats", force: :cascade do |t|
