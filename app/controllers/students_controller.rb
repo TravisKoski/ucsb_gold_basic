@@ -1,5 +1,5 @@
 class StudentsController < ApplicationController
-  before_action :set_student, only: %i[ show edit enroll update destroy view_courses ]
+  before_action :set_student, only: %i[ show edit enroll update destroy view_courses drop_class ]
 
   # GET /students or /students.json
   def index
@@ -32,8 +32,10 @@ class StudentsController < ApplicationController
     else
 
       respond_to do |format|
+        # add the course to the student's course list
         if @student.update(courses: @student.courses << @course)
-          @course.update_full_flag
+          
+          @course.update_full_flag #The course also knows that a student enrolled in it, so update the full indicator
           format.html { redirect_to student_url(@student), notice: "Student was successfully enrolled" }
           format.json { render :show, status: :created, location: @student }
         else
@@ -46,6 +48,26 @@ class StudentsController < ApplicationController
 
     
   end
+
+  #Drops a student from a class and
+  def drop_class
+    @course = Course.find(params[:course_id])
+    respond_to do |format|
+      # add the course to the student's course list
+      @student.courses.delete(@course)
+      if @student.save
+        
+        @course.update_full_flag #The course also knows that a student enrolled in it, so update the full indicator
+        format.html { redirect_to student_url(@student), notice: "Student was succesfully dropped" }
+        format.json { render :show, status: :created, location: @student }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @student.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+
 
   # POST /students or /students.json
   def create

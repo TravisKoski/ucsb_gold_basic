@@ -1,6 +1,8 @@
 <h1> Class schedule for <%=@student.name%> </h1>
+
 <% @courses.each do |course| %>
     <p> name: <%=course.name %> </p>
     <p> capacity: <%=course.capacity %> </p>
+    <%= button_to "Drop this class?", drop_class_path(@student, course), :method => :put %>
 <%end%>
 <%= link_to "back to student profile", @student%>
