@@ -1,6 +1,7 @@
 class Course < ApplicationRecord
     has_many :seats, :dependent => :destroy
     has_many :students, :through => :seats
+    has_one :waitlist
 
     after_initialize :default_values
     attr_accessor :update_full_flag

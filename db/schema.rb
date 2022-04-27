@@ -10,13 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_22_051849) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_27_034226) do
   create_table "courses", force: :cascade do |t|
     t.string "name"
     t.integer "capacity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "isFull"
+  end
+
+  create_table "lineups", force: :cascade do |t|
+    t.integer "student_id", null: false
+    t.integer "waitlist_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["student_id"], name: "index_lineups_on_student_id"
+    t.index ["waitlist_id"], name: "index_lineups_on_waitlist_id"
   end
 
   create_table "seats", force: :cascade do |t|
@@ -36,6 +45,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_22_051849) do
     t.integer "year"
   end
 
+  create_table "waitlists", force: :cascade do |t|
+    t.integer "course_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_waitlists_on_course_id"
+  end
+
+  add_foreign_key "lineups", "students"
+  add_foreign_key "lineups", "waitlists"
   add_foreign_key "seats", "Courses", column: "course_id"
   add_foreign_key "seats", "Students", column: "student_id"
+  add_foreign_key "waitlists", "courses"
 end

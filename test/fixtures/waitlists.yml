@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  course: MyString
+  belongs_to: MyString
+
+two:
+  course: MyString
+  belongs_to: MyString
