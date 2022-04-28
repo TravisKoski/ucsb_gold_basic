@@ -24,7 +24,21 @@ class StudentsController < ApplicationController
   end
   def enroll
     @course = Course.find_by_id(params[:course_id])
-    if @course.isFull == true
+    if @course.isFull
+      #create a waitlist if one doesnt already exist
+      if !@course.waitlist
+        @course.create_waitlist
+      end
+      @waitlist = @course.waitlist
+      #If the student hasn't already been waitlisted, waitlist them
+      if @waitlist
+        if !@waitlist.students.include? @student
+          @waitlist.students << @student
+          # @student.waitlists << @waitlist #also need to add the waitlist itself to the students collection of waitlists they may be on
+        end
+      end
+      #save changes back to Database
+     @course.save && @student.save
       respond_to do |format|
         format.html { redirect_to student_url(@student), notice: "This course is full" }
         format.json { render :show, status: :created, location: @student }
