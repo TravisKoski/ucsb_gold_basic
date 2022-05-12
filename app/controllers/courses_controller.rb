@@ -1,5 +1,5 @@
 class CoursesController < ApplicationController
-  before_action :set_course, only: %i[ show edit update destroy view_students]
+  before_action :set_course, only: %i[ show edit update destroy view_students view_waitlisted_students]
   before_action :set_student
  
   # GET /courses or /courses.json
@@ -62,7 +62,13 @@ class CoursesController < ApplicationController
     end
   end
   def view_waitlisted_students
-    @waitlisted_students = @course.waitlist.students
+    if @course.waitlist
+        @waitlisted_students = @course.waitlist.students
+    else
+      respond_to do |format|
+        format.html{redirect_to @course, notice: "There is no waitlist for this course."}
+      end
+    end
   end
 
   private
