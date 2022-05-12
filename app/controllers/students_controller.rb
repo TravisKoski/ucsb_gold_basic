@@ -24,6 +24,7 @@ class StudentsController < ApplicationController
   end
   def enroll
     @course = Course.find_by_id(params[:course_id])
+    @course.update_full_flag
     if @course.isFull
       #create a waitlist if one doesnt already exist
       if !@course.waitlist
@@ -34,13 +35,15 @@ class StudentsController < ApplicationController
       if @waitlist
         if !@waitlist.students.include? @student
           @waitlist.students << @student
-          # @student.waitlists << @waitlist #also need to add the waitlist itself to the students collection of waitlists they may be on
+        else
+          flash[:notice] = "You are already on the waitlist"
+          redirect_to @student and return
         end
       end
       #save changes back to Database
      @course.save && @student.save
       respond_to do |format|
-        format.html { redirect_to student_url(@student), notice: "This course is full" }
+        format.html { redirect_to student_url(@student), notice: "This course is full, you were added to the waitlist" }
         format.json { render :show, status: :created, location: @student }
       end
     else
@@ -49,7 +52,7 @@ class StudentsController < ApplicationController
         # add the course to the student's course list
         if @student.update(courses: @student.courses << @course)
           
-          @course.update_full_flag #The course also knows that a student enrolled in it, so update the full indicator
+           #The course also knows that a student enrolled in it, so update the full indicator
           format.html { redirect_to student_url(@student), notice: "Student was successfully enrolled" }
           format.json { render :show, status: :created, location: @student }
         else
@@ -69,7 +72,10 @@ class StudentsController < ApplicationController
     respond_to do |format|
       # add the course to the student's course list
       @student.courses.delete(@course)
-      if @student.save
+      if @course.waitlist
+         @course.waitlist.students.delete(@student)
+      end
+      if @student.save && @course.save
         
         @course.update_full_flag #The course also knows that a student enrolled in it, so update the full indicator
         format.html { redirect_to student_url(@student), notice: "Student was succesfully dropped" }
