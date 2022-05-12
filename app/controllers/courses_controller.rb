@@ -61,6 +61,9 @@ class CoursesController < ApplicationController
       format.json { head :no_content }
     end
   end
+  def view_waitlisted_students
+    @waitlisted_students = @course.waitlist.students
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.

@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   #route to view the associated students of a course
   get "/courses/:id/view_students", to: "courses#view_students", as: "course_student_roster"
   put "/students/:student_id/courses/:course_id/drop", to: "students#drop_class", as: "drop_class"
+  get "/courses/:id/waitlisted_students", to: "courses#view_waitlisted_students", as: "waitlisted_students"
 
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
