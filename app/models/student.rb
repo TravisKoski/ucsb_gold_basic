@@ -3,6 +3,7 @@ class Student < ApplicationRecord
     has_many :courses, :through => :seats
     has_many :lineups, :dependent => :destroy
     has_many :waitlists, :through => :lineups
+    has_many :emails, :dependent => :destroy
 
 def self.search(search)
     if search
