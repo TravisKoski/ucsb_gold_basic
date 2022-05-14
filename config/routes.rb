@@ -10,9 +10,13 @@ Rails.application.routes.draw do
   put "/students/:student_id/courses/:course_id/drop", to: "students#drop_class", as: "drop_class"
   get "/courses/:id/waitlisted_students", to: "courses#view_waitlisted_students", as: "waitlisted_students"
   #email related routes
-  get "/students/emails/new", to: "emails#new", as: "new_email"
-  post "/students/emails", to: "emails#send"
-  get "/students/:id/emails", to: "emails#view", as: "student_emails"
+  get "/students/:id/emails/new", to: "emails#new", as: "new_email"
+  post "/students/:id/emails", to: "emails#create", as: "emails"
+  get "/students/:id/emails", to: "emails#index", as: "student_emails"
+  get "/students/:id/emails/inbox", to: "emails#viewInbox", as: "email_inbox"
+  get "/students/:id/emails/sentEmails", to: "emails#viewSentEmails", as: "sent_emails"
+  get "/students/:id/emails/:email_id", to: "emails#show", as: "email"
+  
 
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

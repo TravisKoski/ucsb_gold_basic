@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Email portal</h1>
+
+<div id="options">
+  <%= link_to "Inbox", email_inbox_path(@student) %>
+  <%= link_to "Outbox", sent_emails_path(@student) %>
+</div>
+
+<%= link_to "New email", new_email_path %>
