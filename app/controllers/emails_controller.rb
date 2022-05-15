@@ -6,6 +6,21 @@ class EmailsController < ApplicationController
   def index
     @emails = Email.all
   end
+  #takes in a recipient list, and sends the given email to all of them
+   def ccRecipients(recipientList, email)
+    if not recipientList
+      return
+    end
+    recipientList = recipientList.split(",")
+    recipientList.each do |recipientName|
+      recipient = Student.find_by(:name => recipientName)
+      if not recipient
+        flash[:notice] = "Invalid recipient, please verify the reciever"
+        redirect_to new_email_url(@student) and return
+      end
+      recipient.emails << email
+    end
+  end
   def viewSentEmails
     @emails = Email.where(:sender => @student.name)
   end
@@ -32,10 +47,12 @@ class EmailsController < ApplicationController
     # translate the receiver to the id of the student getting the email
     @recipient_name = @email.reciever
     @recipient_student = Student.find_by(:name => @recipient_name)
-    @email.Student_id = @recipient_student.id
+   
 
     respond_to do |format|
-      if @email.save
+      if @email.save && @recipient_student.emails << @email
+        ccRecipients(@email.ccList, @email)
+        
         format.html { redirect_to email_url(@student, @email), notice: "Email was successfully created." }
         format.json { render :show, status: :created, location: @email }
       else
@@ -81,6 +98,6 @@ class EmailsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def email_params
-      params.require(:email).permit(:sender, :reciever, :content, :Student_id)
+      params.require(:email).permit(:sender, :reciever, :content, :ccList)
     end
 end

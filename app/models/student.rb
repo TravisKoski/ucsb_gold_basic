@@ -4,7 +4,7 @@ class Student < ApplicationRecord
     has_many :lineups, :dependent => :destroy
     has_many :waitlists, :through => :lineups
     has_many :email_objects, :dependent => :destroy
-    has_many: emails, :through => :email_objects
+    has_many :emails, :through => :email_objects
 
 def self.search(search)
     if search
