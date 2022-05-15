@@ -10,10 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_12_212818) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_15_163046) do
   create_table "courses", force: :cascade do |t|
     t.string "name"
-    t.integer "capacity"
+    t.string "capacity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "isFull"
@@ -26,6 +26,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_12_212818) do
     t.integer "Student_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "ccList"
     t.index ["Student_id"], name: "index_emails_on_Student_id"
   end
 
@@ -39,12 +40,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_12_212818) do
   end
 
   create_table "seats", force: :cascade do |t|
-    t.integer "course_id", null: false
-    t.integer "student_id", null: false
+    t.integer "Course_id", null: false
+    t.integer "Student_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["course_id"], name: "index_seats_on_course_id"
-    t.index ["student_id"], name: "index_seats_on_student_id"
+    t.index ["Course_id"], name: "index_seats_on_Course_id"
+    t.index ["Student_id"], name: "index_seats_on_Student_id"
   end
 
   create_table "students", force: :cascade do |t|
@@ -65,7 +66,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_12_212818) do
   add_foreign_key "emails", "Students"
   add_foreign_key "lineups", "students"
   add_foreign_key "lineups", "waitlists"
-  add_foreign_key "seats", "Courses", column: "course_id"
-  add_foreign_key "seats", "Students", column: "student_id"
+  add_foreign_key "seats", "Courses"
+  add_foreign_key "seats", "Students"
   add_foreign_key "waitlists", "courses"
 end
