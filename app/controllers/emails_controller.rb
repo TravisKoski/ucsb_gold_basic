@@ -15,11 +15,13 @@ class EmailsController < ApplicationController
     recipientList.each do |recipientName|
       recipient = Student.find_by(:name => recipientName)
       if not recipient
-        flash[:notice] = "Invalid recipient, please verify the reciever"
-        redirect_to new_email_url(@student) and return
+        
+        redirect_to new_email_url(@student), notice: "At least one CC recipient was not found"
+        return true
       end
       recipient.emails << email
     end
+    return false
   end
   def viewSentEmails
     @emails = Email.where(:sender => @student.name)
@@ -50,8 +52,10 @@ class EmailsController < ApplicationController
    
 
     respond_to do |format|
+      #look for invalid cc recipients firt before sending the email to the intended Reciever
+      return if ccRecipients(@email.ccList, @email)
       if @email.save && @recipient_student.emails << @email
-        ccRecipients(@email.ccList, @email)
+        
         
         format.html { redirect_to email_url(@student, @email), notice: "Email was successfully created." }
         format.json { render :show, status: :created, location: @email }
