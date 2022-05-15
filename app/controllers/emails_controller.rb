@@ -6,6 +6,27 @@ class EmailsController < ApplicationController
   def index
     @emails = Email.all
   end
+  #Shows emails in spam box
+  def viewSpamEmails
+    @emails = Email.where(spam: true)
+  end
+  def viewTrashEmails
+    @emails = Email.where(trash: true)
+  end
+  def viewArchiveEmails
+    @emails = Email.where(Archive: true)
+  end
+  
+  def changeSpamIndicator
+    @email.spam = not @email.spam
+  end
+  def changeTrashIndicator
+    @email.trash = not @email.trash
+  end
+  def changeSpamIndicator
+    @email.archive = not @email.archive
+  end
+
   #takes in a recipient list, and sends the given email to all of them
    def ccRecipients(recipientList, email)
     if not recipientList
