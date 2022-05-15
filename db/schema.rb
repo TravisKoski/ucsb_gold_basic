@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_15_184642) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_15_211516) do
   create_table "courses", force: :cascade do |t|
     t.string "name"
     t.string "capacity"
@@ -35,6 +35,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_15_184642) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "ccList"
+    t.boolean "spam"
+    t.boolean "trash"
+    t.boolean "archive"
   end
 
   create_table "lineups", force: :cascade do |t|
