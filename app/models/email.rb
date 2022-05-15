@@ -1,3 +1,4 @@
 class Email < ApplicationRecord
-  belongs_to :Student
+  has_many :email_objects, dependent: :destroy
+  has_many :students, through: => :email_objects
 end
