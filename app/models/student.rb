@@ -8,7 +8,7 @@ class Student < ApplicationRecord
 
 def self.search(search)
     if search
-        self.where("name LIKE ?", "%" + search + "%")
+        self.where("lower(replace(name, ' ', '')) LIKE ?", "%" + search.delete(' ') + "%")
     else
         @students = [] # Do not show students that havent been searched
     end

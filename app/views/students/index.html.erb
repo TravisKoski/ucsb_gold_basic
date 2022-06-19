@@ -1,7 +1,7 @@
 <p style="color: green"><%= notice %></p>
 
 <h1>Students</h1>
-<%= form_tag students_path, :method => "get" do%>
+<%= form_tag students_path, :method => "get" do |f|%>
   <%= label_tag(:search, "Look up your name to find yourself")%>
   <%= text_field_tag :search, params[:search] %>
   <%= submit_tag(:search, :name => nil) %>
